@@ -42,7 +42,7 @@ main	    PROC
 
 
 
-    mov	    AL, num1 ; IF num1 > num2
+    mov	    AL, num1		; IF num1 > num2
     cmp	    AL, num2
     jng	    ELSE_LABEL
 

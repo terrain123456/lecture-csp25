@@ -1,11 +1,13 @@
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 00:07:19
-Smallest Number	    (HO3A.asm			     Page 1 - 1
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 02:06:51
+&Larger of three numbers	    (HO3B.asm		     Page 1 - 1
 
 
-				TITLE Smallest Number	    (HO3A.asm)
+				TITLE Larger of three numbers	    (HO3B.asm)
 
 				; Author: Sutinder S. Saini
 				; Date: 2/17/23
+
+
 
 				INCLUDE Irvine32.inc
 			      C ; Include file for Irvine32.lib             (Irvine32.inc)
@@ -27,76 +29,96 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 00:07:19
 			      C 
 
  00000000			.data
- 00000000 00			num1		BYTE	?
- 00000001 00			num2		BYTE	?
- 00000002 45 6E 74 65 72	num1Msg		BYTE	"Enter first number: ", 0
-	   20 66 69 72 73
-	   74 20 6E 75 6D
-	   62 65 72 3A 20
-	   00
- 00000017 45 6E 74 65 72	num2Msg		BYTE	"Enter second number: ", 0
-	   20 73 65 63 6F
-	   6E 64 20 6E 75
-	   6D 62 65 72 3A
+ 00000000 00000000		num1		  DWORD	?
+ 00000004 00000000		num2		  DWORD	?
+ 00000008 00000000		num3		  DWORD	?
+ 0000000C 45 6E 74 65 72	enterThreeMsg	  BYTE	"Enter three numbers: ", 0
+	   20 74 68 72 65
+	   65 20 6E 75 6D
+	   62 65 72 73 3A
 	   20 00
- 0000002D 53 6D 61 6C 6C	SmallMsg	BYTE	"Smaller = ", 0
-	   65 72 20 3D 20
-	   00
+ 00000022 4C 61 72 67 65	largerMsg	  BYTE	"Larger = ", 0
+	   72 20 3D 20 00
 
 				; Start 
-				; Print "Enter first number: " 
+				; Print "Enter three numbers" 
 				; Input num1 
-				; Print "Enter second number: " 
 				; Input num2 
-				; IF num1 < num2 
-				;   Print "Smaller = ", num1 
+				; Input num3 
+				; IF num1 > num2 AND num1 > num3 
+				;   Print "Larger = ", num1 
 				; ELSE 
-				;   Print "Smaller = ", num2 
+				;   IF num2 > num3 
+				;     Print "Larger = ", num2 
+				;   ELSE 
+				;     Print "Larger = ", num3 
+				;   ENDIF 
 				; ENDIF 
 				; Stop 
 
  00000000			.code
- 00000000			main	    PROC 
-				    ; start                     
- 00000000  BA 00000002 R	    mov	    edx, OFFSET num1Msg ; "Print "Enter first number""
- 00000005  E8 00000000 E	    call    WriteString         ;
+ 00000000			main	    PROC
+ 00000000  E8 00000000 E	    call    CLRSCR
 
- 0000000A  E8 00000000 E	    call    ReadDec             ; Input num1
- 0000000F  A2 00000000 R	    mov	    num1, AL            ;
+ 00000005  BA 0000000C R	    mov	    edx, OFFSET enterThreeMsg
+ 0000000A  E8 00000000 E	    call    WriteString
+ 0000000F  E8 00000000 E	    call    CRLF
 
-
- 00000014  BA 00000017 R	    mov	    edx, OFFSET num2Msg ; "Print "Enter second number: " "
- 00000019  E8 00000000 E	    call    WriteString         ;
+ 00000014  E8 00000000 E	    call    ReadDec
+ 00000019  A3 00000000 R	    mov	    num1, EAX
 
  0000001E  E8 00000000 E	    call    ReadDec
- 00000023  A2 00000001 R	    mov	    num2, AL		; Input num2
+ 00000023  A3 00000004 R	    mov	    num2, EAX
+
+ 00000028  E8 00000000 E	    call    ReadDec
+ 0000002D  A3 00000008 R	    mov	    num3, EAX
 
 
+ 00000032  A1 00000000 R	    mov	    eax, num1
+ 00000037  3B 05 00000004 R	    cmp	    eax, num2
+ 0000003D  7F 08		    jg	    x
 
- 00000028  A0 00000000 R	    mov	    AL, num1 ; IF num1 > num2
- 0000002D  3A 05 00000001 R	    cmp	    AL, num2
- 00000033  7E 15		    jng	    ELSE_LABEL
+ 0000003F  3B 05 00000004 R	    cmp	    eax, num2
+ 00000045  7C 19		    jl	    else_1
 
- 00000035  BA 0000002D R	    mov	    edx, OFFSET SmallMsg ; Smallest = 
- 0000003A  E8 00000000 E	    call    WriteString
- 0000003F  A0 00000001 R	    mov	    AL, num2
- 00000044  E8 00000000 E	    call    WriteDec
+ 00000047			x:
+ 00000047  3B 05 00000008 R	    cmp	    eax, num3
+ 0000004D  7F 01		    jg	    y
+ 0000004F  C3			    ret
 
- 00000049  C3			    ret
+ 00000050			y:
+ 00000050  BA 00000022 R	    mov	    edx, OFFSET largerMsg
+ 00000055  E8 00000000 E	    call    WriteString
+ 0000005A  E8 00000000 E	    call    WriteDec
+ 0000005F  C3			    ret
 
- 0000004A			ELSE_LABEL:
- 0000004A  BA 0000002D R	    mov	    edx, OFFSET SmallMsg ; Smallest = 
- 0000004F  E8 00000000 E	    call    WriteString
- 00000054  A0 00000000 R	    mov	    AL, num1
- 00000059  E8 00000000 E	    call    WriteDec
+ 00000060			else_1:
+ 00000060  A1 00000004 R	    mov	    EAX, num2
+ 00000065  3B 05 00000008 R	    cmp	    EAX, num3
+ 0000006B  7C 10		    jl	    else_2
 
-				    invoke  ExitProcess,0 ; stop
- 0000005E  6A 00	   *	    push   +000000000h
- 00000060  E8 00000000 E   *	    call   ExitProcess
- 00000065			main	    ENDP
+ 0000006D  BA 00000022 R	    mov	    edx, OFFSET largerMsg
+ 00000072  E8 00000000 E	    call    WriteString
+ 00000077  E8 00000000 E	    call    WriteDec
+ 0000007C  C3			    ret
+
+
+ 0000007D			else_2:
+ 0000007D  BA 00000022 R	    mov	    edx, OFFSET largerMsg
+ 00000082  E8 00000000 E	    call    WriteString
+
+ 00000087  A1 00000008 R	    mov	    EAX, num3
+ 0000008C  E8 00000000 E	    call    WriteDec
+
+				invoke  ExitProcess,0 ; stop
+ 00000091  6A 00	   *	    push   +000000000h
+ 00000093  E8 00000000 E   *	    call   ExitProcess
+
+
+ 00000098			main	    ENDP
 				END main
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 00:07:19
-Smallest Number	    (HO3A.asm			     Symbols 2 - 1
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 02:06:51
+&Larger of three numbers	    (HO3B.asm		     Symbols 2 - 1
 
 
 
@@ -189,8 +211,8 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000038 Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000065 Para	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 0000002C Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000098 Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -297,8 +319,11 @@ WriteStackFrame  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 WriteString  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteToFile  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteWindowsMsg  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
-main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000065 Public STDCALL
-  ELSE_LABEL . . . . . . . . . .	L Near	 0000004A _TEXT	
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000098 Public STDCALL
+  x  . . . . . . . . . . . . . .	L Near	 00000047 _TEXT	
+  y  . . . . . . . . . . . . . .	L Near	 00000050 _TEXT	
+  else_1 . . . . . . . . . . . .	L Near	 00000060 _TEXT	
+  else_2 . . . . . . . . . . . .	L Near	 0000007D _TEXT	
 printf . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 scanf  . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 wsprintfA  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
@@ -433,7 +458,6 @@ STD_ERROR_HANDLE . . . . . . . .	Number	 -0000000Ch
 STD_INPUT_HANDLE . . . . . . . .	Number	 -0000000Ah   
 STD_OUTPUT_HANDLE  . . . . . . .	Number	 -0000000Bh   
 SetConsoleTitle  . . . . . . . .	Text   	 SetConsoleTitleA
-SmallMsg . . . . . . . . . . . .	Byte	 0000002D _DATA	
 TAB  . . . . . . . . . . . . . .	Number	 00000009h   
 TRUE . . . . . . . . . . . . . .	Number	 00000001h   
 TRUNCATE_EXISTING  . . . . . . .	Number	 00000005h   
@@ -522,9 +546,11 @@ black  . . . . . . . . . . . . .	Number	 00000000h
 blue . . . . . . . . . . . . . .	Number	 00000001h   
 brown  . . . . . . . . . . . . .	Number	 00000006h   
 cyan . . . . . . . . . . . . . .	Number	 00000003h   
+enterThreeMsg  . . . . . . . . .	Byte	 0000000C _DATA	
 exit . . . . . . . . . . . . . .	Text   	 INVOKE ExitProcess,0
 gray . . . . . . . . . . . . . .	Number	 00000008h   
 green  . . . . . . . . . . . . .	Number	 00000002h   
+largerMsg  . . . . . . . . . . .	Byte	 00000022 _DATA	
 lightBlue  . . . . . . . . . . .	Number	 00000009h   
 lightCyan  . . . . . . . . . . .	Number	 0000000Bh   
 lightGray  . . . . . . . . . . .	Number	 00000007h   
@@ -532,10 +558,9 @@ lightGreen . . . . . . . . . . .	Number	 0000000Ah
 lightMagenta . . . . . . . . . .	Number	 0000000Dh   
 lightRed . . . . . . . . . . . .	Number	 0000000Ch   
 magenta  . . . . . . . . . . . .	Number	 00000005h   
-num1Msg  . . . . . . . . . . . .	Byte	 00000002 _DATA	
-num1 . . . . . . . . . . . . . .	Byte	 00000000 _DATA	
-num2Msg  . . . . . . . . . . . .	Byte	 00000017 _DATA	
-num2 . . . . . . . . . . . . . .	Byte	 00000001 _DATA	
+num1 . . . . . . . . . . . . . .	DWord	 00000000 _DATA	
+num2 . . . . . . . . . . . . . .	DWord	 00000004 _DATA	
+num3 . . . . . . . . . . . . . .	DWord	 00000008 _DATA	
 red  . . . . . . . . . . . . . .	Number	 00000004h   
 white  . . . . . . . . . . . . .	Number	 0000000Fh   
 wsprintf . . . . . . . . . . . .	Text   	 wsprintfA

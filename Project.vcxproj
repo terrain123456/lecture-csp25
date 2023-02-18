@@ -11,9 +11,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="HO3A.asm" />
-  </ItemGroup>
-  <ItemGroup>
     <Library Include="Irvine32.lib" />
     <Library Include="Kernel32.Lib" />
     <Library Include="User32.Lib" />
@@ -22,6 +19,9 @@
     <None Include="Irvine32.inc" />
     <None Include="SmallWin.inc" />
     <None Include="VirtualKeys.inc" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="H03B.asm" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4164AA65-1EF9-4E69-899B-D1BED776070B}</ProjectGuid>
