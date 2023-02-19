@@ -86,20 +86,20 @@ main	    PROC
     jmp	    IF_ONE
 
 IF_ONE:
-    call subYearFromCurYear
-    mov edx, OFFSET monthMsg
-    call WriteString
+    call    subYearFromCurYear
+    mov	    edx, OFFSET monthMsg
+    call    WriteString
 
-    call ReadDec
-    mov  month, eax
+    call    ReadDec
+    mov	    month, eax
 
-    cmp eax, curMonth
+    cmp	    eax, curMonth
     
-    jg  MONTH_GREATER_THAN_CURRENT_MONTH		;; is x less than y ?
+    jg	    MONTH_GREATER_THAN_CURRENT_MONTH			;; is x less than y ?
 
-    jl	MONTH_LESS_THAN_CURRENT_MONTH		        ;; is y less than x ?
+    jl	    MONTH_LESS_THAN_CURRENT_MONTH		        ;; is y less than x ?
     
-    jmp	INNER_ELSE_3					;; more clarification needed
+    jmp	    INNER_ELSE_3					;; more clarification needed
     ret
 
 MONTH_GREATER_THAN_CURRENT_MONTH: 

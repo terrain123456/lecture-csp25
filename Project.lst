@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:26:50
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:29:47
 (Calculate how old you are	    (HO3C.asm		     Page 1 - 1
 
 
@@ -140,20 +140,20 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:26:50
  0000002B  EB 00		    jmp	    IF_ONE
 
  0000002D			IF_ONE:
- 0000002D  E8 00000124		    call subYearFromCurYear
- 00000032  BA 0000002B R	    mov edx, OFFSET monthMsg
- 00000037  E8 00000000 E	    call WriteString
+ 0000002D  E8 00000124		    call    subYearFromCurYear
+ 00000032  BA 0000002B R	    mov	    edx, OFFSET monthMsg
+ 00000037  E8 00000000 E	    call    WriteString
 
- 0000003C  E8 00000000 E	    call ReadDec
- 00000041  A3 000000CC R	    mov  month, eax
+ 0000003C  E8 00000000 E	    call    ReadDec
+ 00000041  A3 000000CC R	    mov	    month, eax
 
- 00000046  3B 05 00000004 R	    cmp eax, curMonth
+ 00000046  3B 05 00000004 R	    cmp	    eax, curMonth
 				    
- 0000004C  7F 05		    jg  MONTH_GREATER_THAN_CURRENT_MONTH		;; is x less than y ?
+ 0000004C  7F 05		    jg	    MONTH_GREATER_THAN_CURRENT_MONTH			;; is x less than y ?
 
- 0000004E  7C 22		    jl	MONTH_LESS_THAN_CURRENT_MONTH		        ;; is y less than x ?
+ 0000004E  7C 22		    jl	    MONTH_LESS_THAN_CURRENT_MONTH		        ;; is y less than x ?
 				    
- 00000050  EB 3F		    jmp	INNER_ELSE_3					;; more clarification needed
+ 00000050  EB 3F		    jmp	    INNER_ELSE_3					;; more clarification needed
  00000052  C3			    ret
 
  00000053			MONTH_GREATER_THAN_CURRENT_MONTH: 
@@ -275,7 +275,7 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:26:50
  00000167			subYearFromCurYear ENDP
 
 				END main
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:26:50
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:29:47
 (Calculate how old you are	    (HO3C.asm		     Symbols 2 - 1
 
 
