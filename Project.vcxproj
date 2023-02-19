@@ -21,7 +21,7 @@
     <None Include="VirtualKeys.inc" />
   </ItemGroup>
   <ItemGroup>
-    <MASM Include="HO3C.asm" />
+    <MASM Include="HO3\HO3C.asm" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4164AA65-1EF9-4E69-899B-D1BED776070B}</ProjectGuid>

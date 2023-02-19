@@ -1,9 +1,7 @@
-TITLE Calculate how old you are	    (HO3B.asm)
+TITLE Calculate how old you are	    (HO3C.asm)
 
 ; Author: Sutinder S. Saini
 ; Date: 2/17/23
-
-
 
 INCLUDE Irvine32.inc
 
@@ -113,6 +111,7 @@ MONTH_GREATER_THAN_CURRENT_MONTH:
 
     mov	    edx, OFFSET yearsOldMsg
     call    WriteString
+    ret
     
 MONTH_LESS_THAN_CURRENT_MONTH:
     mov	    edx, OFFSET youAreMsg

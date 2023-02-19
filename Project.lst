@@ -1,13 +1,11 @@
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:16:17
-(Calculate how old you are	    (HO3B.asm		     Page 1 - 1
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:26:50
+(Calculate how old you are	    (HO3C.asm		     Page 1 - 1
 
 
-				TITLE Calculate how old you are	    (HO3B.asm)
+				TITLE Calculate how old you are	    (HO3C.asm)
 
 				; Author: Sutinder S. Saini
 				; Date: 2/17/23
-
-
 
 				INCLUDE Irvine32.inc
 			      C ; Include file for Irvine32.lib             (Irvine32.inc)
@@ -135,14 +133,14 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:16:17
 
  00000014  A1 000000C8 R	    mov	    EAX, year
  00000019  3B 05 00000000 R	    cmp	    EAX, curYear
- 0000001F  0F 84 000000CE	    je	    IF_CURRENT_YEAR
+ 0000001F  0F 84 000000CF	    je	    IF_CURRENT_YEAR
 
- 00000025  0F 8F 000000FC	    jg	    PERSON_HAS_NOT_BEEN_BORN_YET
+ 00000025  0F 8F 000000FD	    jg	    PERSON_HAS_NOT_BEEN_BORN_YET
 
  0000002B  EB 00		    jmp	    IF_ONE
 
  0000002D			IF_ONE:
- 0000002D  E8 00000123		    call subYearFromCurYear
+ 0000002D  E8 00000124		    call subYearFromCurYear
  00000032  BA 0000002B R	    mov edx, OFFSET monthMsg
  00000037  E8 00000000 E	    call WriteString
 
@@ -153,132 +151,132 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:16:17
 				    
  0000004C  7F 05		    jg  MONTH_GREATER_THAN_CURRENT_MONTH		;; is x less than y ?
 
- 0000004E  7C 21		    jl	MONTH_LESS_THAN_CURRENT_MONTH		        ;; is y less than x ?
+ 0000004E  7C 22		    jl	MONTH_LESS_THAN_CURRENT_MONTH		        ;; is y less than x ?
 				    
- 00000050  EB 3E		    jmp	INNER_ELSE_3					;; more clarification needed
+ 00000050  EB 3F		    jmp	INNER_ELSE_3					;; more clarification needed
  00000052  C3			    ret
 
- 00000053			MONTH_GREATER_THAN_CURRENT_MONTH:
-				    
+ 00000053			MONTH_GREATER_THAN_CURRENT_MONTH: 
  00000053  BA 00000069 R	    mov	    edx, OFFSET youAreMsg
  00000058  E8 00000000 E	    call    WriteString
 				    
- 0000005D  E8 000000D7		    call    decrementAge
+ 0000005D  E8 000000D8		    call    decrementAge
  00000062  E8 00000000 E	    call    WriteDec
 
  00000067  BA 00000072 R	    mov	    edx, OFFSET yearsOldMsg
  0000006C  E8 00000000 E	    call    WriteString
+ 00000071  C3			    ret
 				    
- 00000071			MONTH_LESS_THAN_CURRENT_MONTH:
- 00000071  BA 00000069 R	    mov	    edx, OFFSET youAreMsg
- 00000076  E8 00000000 E	    call    WriteString
+ 00000072			MONTH_LESS_THAN_CURRENT_MONTH:
+ 00000072  BA 00000069 R	    mov	    edx, OFFSET youAreMsg
+ 00000077  E8 00000000 E	    call    WriteString
 				    
- 0000007B  A1 000000D4 R	    mov	    eax, age
- 00000080  E8 00000000 E	    call    WriteDec
+ 0000007C  A1 000000D4 R	    mov	    eax, age
+ 00000081  E8 00000000 E	    call    WriteDec
 
- 00000085  BA 00000072 R	    mov	    edx, OFFSET yearsOldMsg
- 0000008A  E8 00000000 E	    call    WriteString
+ 00000086  BA 00000072 R	    mov	    edx, OFFSET yearsOldMsg
+ 0000008B  E8 00000000 E	    call    WriteString
 
- 0000008F  C3			    ret
+ 00000090  C3			    ret
 
- 00000090			INNER_ELSE_3:
+ 00000091			INNER_ELSE_3:
 				    ; this is a hard jump
- 00000090  BA 0000004B R	    mov	    edx, OFFSET dayMsg
- 00000095  E8 00000000 E	    call    WriteString
+ 00000091  BA 0000004B R	    mov	    edx, OFFSET dayMsg
+ 00000096  E8 00000000 E	    call    WriteString
 
- 0000009A  E8 00000000 E	    call    ReadDec
- 0000009F  A3 000000D0 R	    mov	    day, EAX
+ 0000009B  E8 00000000 E	    call    ReadDec
+ 000000A0  A3 000000D0 R	    mov	    day, EAX
 
 				    ;;eax=day
- 000000A4  3B 05 00000008 R	    cmp	    eax, curDay
- 000000AA  7F 04		    jg	    DAY_IS_GREATER_THAN_CURRENT_DAY ; day>curDay
- 000000AC  7C 26		    jl	    INNER_ELSE_4		    ; day<curDay
- 000000AE  74 4E		    je	    IS_BIRTHDAY_TODAY
+ 000000A5  3B 05 00000008 R	    cmp	    eax, curDay
+ 000000AB  7F 04		    jg	    DAY_IS_GREATER_THAN_CURRENT_DAY ; day>curDay
+ 000000AD  7C 26		    jl	    INNER_ELSE_4		    ; day<curDay
+ 000000AF  74 4E		    je	    IS_BIRTHDAY_TODAY
 				    
 
- 000000B0			DAY_IS_GREATER_THAN_CURRENT_DAY:
- 000000B0  E8 00000084		    call    decrementAge
+ 000000B1			DAY_IS_GREATER_THAN_CURRENT_DAY:
+ 000000B1  E8 00000084		    call    decrementAge
 
- 000000B5  BA 00000069 R	    mov	    edx, OFFSET youAreMsg
- 000000BA  E8 00000000 E	    call    WriteString
+ 000000B6  BA 00000069 R	    mov	    edx, OFFSET youAreMsg
+ 000000BB  E8 00000000 E	    call    WriteString
 				    
- 000000BF  A1 000000D4 R	    mov	    eax, age
- 000000C4  E8 00000000 E	    call    WriteDec
+ 000000C0  A1 000000D4 R	    mov	    eax, age
+ 000000C5  E8 00000000 E	    call    WriteDec
 
- 000000C9  BA 00000072 R	    mov	    edx, OFFSET yearsOldMsg
- 000000CE  E8 00000000 E	    call    WriteString
+ 000000CA  BA 00000072 R	    mov	    edx, OFFSET yearsOldMsg
+ 000000CF  E8 00000000 E	    call    WriteString
 
- 000000D3  C3			    ret
+ 000000D4  C3			    ret
 
- 000000D4			INNER_ELSE_4:
- 000000D4  BA 00000069 R	    mov	    edx, OFFSET youAreMsg
- 000000D9  E8 00000000 E	    call    WriteString
+ 000000D5			INNER_ELSE_4:
+ 000000D5  BA 00000069 R	    mov	    edx, OFFSET youAreMsg
+ 000000DA  E8 00000000 E	    call    WriteString
 				    
- 000000DE  A1 000000D4 R	    mov	    eax, age
- 000000E3  E8 00000000 E	    call    WriteDec
+ 000000DF  A1 000000D4 R	    mov	    eax, age
+ 000000E4  E8 00000000 E	    call    WriteDec
 
- 000000E8  BA 00000072 R	    mov	    edx, OFFSET yearsOldMsg
- 000000ED  E8 00000000 E	    call    WriteString
+ 000000E9  BA 00000072 R	    mov	    edx, OFFSET yearsOldMsg
+ 000000EE  E8 00000000 E	    call    WriteString
 
- 000000F2  C3			    ret
+ 000000F3  C3			    ret
 				    
 
- 000000F3			IF_CURRENT_YEAR:
- 000000F3  BA 0000007E R	    mov	    edx, OFFSET lessThanOne
- 000000F8  E8 00000000 E	    call    WriteString
- 000000FD  C3			    ret
+ 000000F4			IF_CURRENT_YEAR:
+ 000000F4  BA 0000007E R	    mov	    edx, OFFSET lessThanOne
+ 000000F9  E8 00000000 E	    call    WriteString
+ 000000FE  C3			    ret
 
- 000000FE			IS_BIRTHDAY_TODAY:
- 000000FE  BA 00000069 R	    mov	    edx, OFFSET	youAreMsg
- 00000103  E8 00000000 E	    call    WriteString
+ 000000FF			IS_BIRTHDAY_TODAY:
+ 000000FF  BA 00000069 R	    mov	    edx, OFFSET	youAreMsg
+ 00000104  E8 00000000 E	    call    WriteString
 
- 00000108  A1 000000D4 R	    mov	    EAX, age
- 0000010D  E8 00000000 E	    call    WriteDec
+ 00000109  A1 000000D4 R	    mov	    EAX, age
+ 0000010E  E8 00000000 E	    call    WriteDec
 
- 00000112  BA 00000072 R	    mov	    edx, OFFSET	yearsOldMsg
- 00000117  E8 00000000 E	    call    WriteString
+ 00000113  BA 00000072 R	    mov	    edx, OFFSET	yearsOldMsg
+ 00000118  E8 00000000 E	    call    WriteString
 
- 0000011C  BA 0000009C R	    mov	    edx, OFFSET	birthday
- 00000121  E8 00000000 E	    call    WriteString
+ 0000011D  BA 0000009C R	    mov	    edx, OFFSET	birthday
+ 00000122  E8 00000000 E	    call    WriteString
 
- 00000126  C3			    ret
+ 00000127  C3			    ret
 
- 00000127			PERSON_HAS_NOT_BEEN_BORN_YET:
- 00000127  BA 000000AD R	    mov	    edx, OFFSET notBornYet
- 0000012C  E8 00000000 E	    call    WriteString
- 00000131  C3			    ret
+ 00000128			PERSON_HAS_NOT_BEEN_BORN_YET:
+ 00000128  BA 000000AD R	    mov	    edx, OFFSET notBornYet
+ 0000012D  E8 00000000 E	    call    WriteString
+ 00000132  C3			    ret
 				    
 
 				invoke  ExitProcess,0 ; stop
- 00000132  6A 00	   *	    push   +000000000h
- 00000134  E8 00000000 E   *	    call   ExitProcess
- 00000139			main	    ENDP
+ 00000133  6A 00	   *	    push   +000000000h
+ 00000135  E8 00000000 E   *	    call   ExitProcess
+ 0000013A			main	    ENDP
 
- 00000139			decrementAge	    PROC
- 00000139  A1 000000D4 R	    mov	    eax, age
- 0000013E  83 E8 01		    sub	    eax, 1
- 00000141  A3 000000D4 R	    mov	    age, eax
- 00000146  C3			    ret
- 00000147			decrementAge	    ENDP
+ 0000013A			decrementAge	    PROC
+ 0000013A  A1 000000D4 R	    mov	    eax, age
+ 0000013F  83 E8 01		    sub	    eax, 1
+ 00000142  A3 000000D4 R	    mov	    age, eax
+ 00000147  C3			    ret
+ 00000148			decrementAge	    ENDP
 
- 00000147			incrementAge	    PROC
- 00000147  A1 000000D4 R	    mov	    eax, age
- 0000014C  83 E8 01		    sub	    eax, 1
- 0000014F  A3 000000D4 R	    mov	    age, eax
- 00000154  C3			    ret
- 00000155			incrementAge	    ENDP
+ 00000148			incrementAge	    PROC
+ 00000148  A1 000000D4 R	    mov	    eax, age
+ 0000014D  83 E8 01		    sub	    eax, 1
+ 00000150  A3 000000D4 R	    mov	    age, eax
+ 00000155  C3			    ret
+ 00000156			incrementAge	    ENDP
 
- 00000155			subYearFromCurYear  PROC
+ 00000156			subYearFromCurYear  PROC
 				    ;age=curYear-year
- 00000155  A1 00000000 R	    mov eax, curYear
- 0000015A  2B 05 000000C8 R	    sub eax, year
- 00000160  A3 000000D4 R	    mov age, eax
- 00000165  C3			    ret
- 00000166			subYearFromCurYear ENDP
+ 00000156  A1 00000000 R	    mov	    eax, curYear
+ 0000015B  2B 05 000000C8 R	    sub	    eax, year
+ 00000161  A3 000000D4 R	    mov	    age, eax
+ 00000166  C3			    ret
+ 00000167			subYearFromCurYear ENDP
 
 				END main
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:16:17
-(Calculate how old you are	    (HO3B.asm		     Symbols 2 - 1
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/18/23 17:26:50
+(Calculate how old you are	    (HO3C.asm		     Symbols 2 - 1
 
 
 
@@ -372,7 +370,7 @@ Segments and Groups:
 FLAT . . . . . . . . . . . . . .	GROUP
 STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
 _DATA  . . . . . . . . . . . . .	32 Bit	 000000D8 Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000166 Para	  Public  'CODE'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000167 Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -479,21 +477,21 @@ WriteStackFrame  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 WriteString  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteToFile  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteWindowsMsg  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
-decrementAge . . . . . . . . . .	P Near	 00000139 _TEXT	Length= 0000000E Public STDCALL
-incrementAge . . . . . . . . . .	P Near	 00000147 _TEXT	Length= 0000000E Public STDCALL
-main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000139 Public STDCALL
+decrementAge . . . . . . . . . .	P Near	 0000013A _TEXT	Length= 0000000E Public STDCALL
+incrementAge . . . . . . . . . .	P Near	 00000148 _TEXT	Length= 0000000E Public STDCALL
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000013A Public STDCALL
   IF_ONE . . . . . . . . . . . .	L Near	 0000002D _TEXT	
   MONTH_GREATER_THAN_CURRENT_MONTH .	L Near	 00000053 _TEXT	
-  MONTH_LESS_THAN_CURRENT_MONTH 	L Near	 00000071 _TEXT	
-  INNER_ELSE_3 . . . . . . . . .	L Near	 00000090 _TEXT	
-  DAY_IS_GREATER_THAN_CURRENT_DAY 	L Near	 000000B0 _TEXT	
-  INNER_ELSE_4 . . . . . . . . .	L Near	 000000D4 _TEXT	
-  IF_CURRENT_YEAR  . . . . . . .	L Near	 000000F3 _TEXT	
-  IS_BIRTHDAY_TODAY  . . . . . .	L Near	 000000FE _TEXT	
-  PERSON_HAS_NOT_BEEN_BORN_YET .	L Near	 00000127 _TEXT	
+  MONTH_LESS_THAN_CURRENT_MONTH 	L Near	 00000072 _TEXT	
+  INNER_ELSE_3 . . . . . . . . .	L Near	 00000091 _TEXT	
+  DAY_IS_GREATER_THAN_CURRENT_DAY 	L Near	 000000B1 _TEXT	
+  INNER_ELSE_4 . . . . . . . . .	L Near	 000000D5 _TEXT	
+  IF_CURRENT_YEAR  . . . . . . .	L Near	 000000F4 _TEXT	
+  IS_BIRTHDAY_TODAY  . . . . . .	L Near	 000000FF _TEXT	
+  PERSON_HAS_NOT_BEEN_BORN_YET .	L Near	 00000128 _TEXT	
 printf . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 scanf  . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
-subYearFromCurYear . . . . . . .	P Near	 00000155 _TEXT	Length= 00000011 Public STDCALL
+subYearFromCurYear . . . . . . .	P Near	 00000156 _TEXT	Length= 00000011 Public STDCALL
 wsprintfA  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 
 
