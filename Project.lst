@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:18:49
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:25:24
 Smallest Number	    (HO3A.asm			     Page 1 - 1
 
 
@@ -59,7 +59,7 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:18:49
 
  00000028  A0 00000000 R			mov	AL, num1		; IF num1 > num2
  0000002D  3A 05 00000001 R			cmp	AL, num2
- 00000033  7F 18				jg	ELSE_LABEL
+ 00000033  7C 18				jl	ELSE_LABEL
 
  00000035  BA 0000002D R			mov	edx, OFFSET SmallMsg	; Print "Smaller = ", num1 
 
@@ -70,9 +70,9 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:18:49
  0000004B  EB 14				jmp	END_IF
 
  0000004D			ELSE_LABEL:
- 0000004D  BA 0000002D R			mov	edx, OFFSET SmallMsg	; Smallest = 
+ 0000004D  BA 0000002D R			mov	edx, OFFSET SmallMsg	; Print "Smaller = ", num2
  00000052  E8 00000000 E			call	WriteString
- 00000057  A0 00000000 R			mov	AL, num1
+ 00000057  A0 00000001 R			mov	AL, num2
  0000005C  E8 00000000 E			call	WriteDec
 
  00000061  E8 00000000 E	END_IF:		call	CRLF
@@ -81,7 +81,7 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:18:49
  00000068  E8 00000000 E   *	    call   ExitProcess
  0000006D			main		ENDP
 						END	main
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:18:49
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:25:24
 Smallest Number	    (HO3A.asm			     Symbols 2 - 1
 
 

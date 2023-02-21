@@ -28,7 +28,7 @@ main		PROC				; start
 
 		mov	AL, num1		; IF num1 > num2
 		cmp	AL, num2
-		jg	ELSE_LABEL
+		jl	ELSE_LABEL
 
 		mov	edx, OFFSET SmallMsg	; Print "Smaller = ", num1 
 
@@ -38,9 +38,9 @@ main		PROC				; start
 		jmp	END_IF
 
 ELSE_LABEL:
-		mov	edx, OFFSET SmallMsg	; Smallest = 
+		mov	edx, OFFSET SmallMsg	; Print "Smaller = ", num2
 		call	WriteString
-		mov	AL, num1
+		mov	AL, num2
 		call	WriteDec
 
 END_IF:		call	CRLF
