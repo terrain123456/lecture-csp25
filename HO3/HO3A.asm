@@ -5,6 +5,18 @@ TITLE Smallest Number	    (HO3A.asm)
 
 INCLUDE Irvine32.inc
 
+; Start 
+; Print "Enter first number: " 
+; Input num1 
+; Print "Enter second number: " 
+; Input num2 
+; IF num1 < num2 
+;   Print "Smaller = ", num1 
+; ELSE 
+;   Print "Smaller = ", num2 
+; ENDIF 
+; Stop 
+
 .data
 num1		BYTE	?
 num2		BYTE	?
@@ -13,7 +25,7 @@ num2Msg		BYTE	"Enter second number: ", 0
 SmallMsg	BYTE	"Smaller = ", 0
 
 .code
-main		PROC				; start
+main		PROC				; Start
 		mov	edx, OFFSET num1Msg	; "Print "Enter first number""
 		call	WriteString
 

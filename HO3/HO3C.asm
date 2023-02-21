@@ -5,6 +5,46 @@ TITLE Calculate how old you are	    (HO3C.asm)
 
 INCLUDE Irvine32.inc
 
+; Start 
+; curYear = 2019 
+; curMonth = 10 
+; curDay = 20 
+; Print "Enter the year of your birth: " 
+; Input year 
+; IF year = curYear THEN 
+;   Print "you are less than 1 year old" 
+; ELSE 
+;   IF year < curYear THEN 
+;     Print "Enter the month of your birth: " 
+;     Input month 
+;     age = curYear - year 
+;     IF month > curMonth THEN 
+;       age = age - 1 
+;       Print "you are "; age; " years old" 
+;     ELSE 
+;       IF month < curMonth THEN 
+;         Print "you are "; age; " years old" 
+;       ELSE 
+;         Print "Enter day of your birth: " 
+;         Input day 
+;         IF day > curDay THEN 
+;           age = age - 1 
+;           Print "you are "; age; " years old" 
+;         ELSE 
+;           IF day < curDay THEN 
+;             Print "you are "; age; " years old" 
+;           ELSE 
+;             Print "you are "; age; " years old, Happy Birthday" 
+;           ENDIF 
+;         ENDIF 
+;       ENDIF 
+;     ENDIF 
+;   ELSE 
+;     Print "you haven't been born year" 
+;   ENDIF 
+; ENDIF 
+; Stop
+
 .data
 curYear	    DWORD   2023
 curMonth    DWORD   2
@@ -32,14 +72,16 @@ age	    DWORD   ?
 main	    PROC
     
 	    mov	    edx, OFFSET	yearMsg
-	    call    WriteString
+	    call    WriteString			    ; Print "Enter the year of your birth: "
 
-	    call    ReadDec
+	    call    ReadDec			    ; Input year
 	    mov	    year, EAX
 
 	    mov	    EAX, year
-	    cmp	    EAX, curYear		    ; IF year < curYear
+	    cmp	    EAX, curYear		    ; IF year = curYear
 	    je	    IF_CURRENT_YEAR		    ; THEN
+						    
+						    ; ELSE
 
 	    jg	    PERSON_HAS_NOT_BEEN_BORN_YET    ; IF year > curYear
 	    jmp	    IF_ONE			    ; ELSE
@@ -47,12 +89,12 @@ main	    PROC
 IF_ONE:
 	    call    subYearFromCurYear
 	    mov	    edx, OFFSET monthMsg
-	    call    WriteString
+	    call    WriteString			    ; Print "Enter the month of your birth"
 
-	    call    ReadDec
+	    call    ReadDec			    ; Input month
 	    mov	    month, eax
 
-	    cmp	    eax, curMonth
+	    cmp	    eax, curMonth		    ; IF month > curMonth
     
 	    jg	    MONTH_GREATER_THAN_CURRENT_MONTH
 
@@ -127,7 +169,7 @@ INNER_ELSE_4:
     
 
 IF_CURRENT_YEAR:
-	    mov	    edx, OFFSET lessThanOne
+	    mov	    edx, OFFSET lessThanOne	    ; Print "you are less that one years old"
 	    call    WriteString
 	    jmp	    _ENDIF
 
