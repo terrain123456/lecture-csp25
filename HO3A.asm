@@ -28,7 +28,7 @@ main		PROC				; start
 
 		mov	AL, num1		; IF num1 > num2
 		cmp	AL, num2
-		jng	ELSE_LABEL
+		jg	ELSE_LABEL
 
 		mov	edx, OFFSET SmallMsg	; Print "Smaller = ", num1 
 

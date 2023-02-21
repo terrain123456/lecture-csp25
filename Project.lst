@@ -1,8 +1,8 @@
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/19/23 14:20:02
-(Calculate how old you are	    (HO3C.asm		     Page 1 - 1
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:18:49
+Smallest Number	    (HO3A.asm			     Page 1 - 1
 
 
-				TITLE Calculate how old you are	    (HO3C.asm)
+				TITLE Smallest Number	    (HO3A.asm)
 
 				; Author: Sutinder S. Saini
 				; Date: 2/17/23
@@ -27,218 +27,62 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/19/23 14:20:02
 			      C 
 
  00000000			.data
- 00000000 000007E7		curYear	    DWORD   2023
- 00000004 00000002		curMonth    DWORD   2
- 00000008 00000012		curDay	    DWORD   18
-
- 0000000C 45 6E 74 65 72	yearMsg	    BYTE    "Enter the year of your birth: ", 0
-	   20 74 68 65 20
-	   79 65 61 72 20
-	   6F 66 20 79 6F
-	   75 72 20 62 69
-	   72 74 68 3A 20
+ 00000000 00			num1		BYTE	?
+ 00000001 00			num2		BYTE	?
+ 00000002 45 6E 74 65 72	num1Msg		BYTE	"Enter first number: ", 0
+	   20 66 69 72 73
+	   74 20 6E 75 6D
+	   62 65 72 3A 20
 	   00
- 0000002B 45 6E 74 65 72	monthMsg    BYTE    "Enter the month of your birth: ", 0
-	   20 74 68 65 20
-	   6D 6F 6E 74 68
-	   20 6F 66 20 79
-	   6F 75 72 20 62
-	   69 72 74 68 3A
+ 00000017 45 6E 74 65 72	num2Msg		BYTE	"Enter second number: ", 0
+	   20 73 65 63 6F
+	   6E 64 20 6E 75
+	   6D 62 65 72 3A
 	   20 00
- 0000004B 45 6E 74 65 72	dayMsg	    BYTE    "Enter the day of your birth: ", 0
-	   20 74 68 65 20
-	   64 61 79 20 6F
-	   66 20 79 6F 75
-	   72 20 62 69 72
-	   74 68 3A 20 00
-
-
- 00000069 59 6F 75 20 61	youAreMsg   BYTE    "You are ", 0
-	   72 65 20 00
- 00000072 20 79 65 61 72	yearsOldMsg BYTE    " years old.", 0
-	   73 20 6F 6C 64
-	   2E 00
-
- 0000007E 79 6F 75 20 61	lessThanOne BYTE    "you are less than 1 year old.", 0
-	   72 65 20 6C 65
-	   73 73 20 74 68
-	   61 6E 20 31 20
-	   79 65 61 72 20
-	   6F 6C 64 2E 00
- 0000009C 20 48 61 70 70	birthday    BYTE    " Happy birthday!", 0
-	   79 20 62 69 72
-	   74 68 64 61 79
-	   21 00
-
- 000000AD 79 6F 75 20 68	notBornYet  BYTE    "you haven't been born yet.", 0
-	   61 76 65 6E 27
-	   74 20 62 65 65
-	   6E 20 62 6F 72
-	   6E 20 79 65 74
-	   2E 00
-
- 000000C8 00000000		year	    DWORD   ?
- 000000CC 00000000		month	    DWORD   ?
- 000000D0 00000000		day	    DWORD   ?
- 000000D4 00000000		age	    DWORD   ?
+ 0000002D 53 6D 61 6C 6C	SmallMsg	BYTE	"Smaller = ", 0
+	   65 72 20 3D 20
+	   00
 
  00000000			.code
- 00000000			main	    PROC
-				    
- 00000000  BA 0000000C R		    mov	    edx, OFFSET	yearMsg
- 00000005  E8 00000000 E		    call    WriteString
+ 00000000			main		PROC				; start
+ 00000000  BA 00000002 R			mov	edx, OFFSET num1Msg	; "Print "Enter first number""
+ 00000005  E8 00000000 E			call	WriteString
 
- 0000000A  E8 00000000 E		    call    ReadDec
- 0000000F  A3 000000C8 R		    mov	    year, EAX
+ 0000000A  E8 00000000 E			call	ReadDec			; Input num1
+ 0000000F  A2 00000000 R			mov	num1, AL
 
- 00000014  A1 000000C8 R		    mov	    EAX, year
- 00000019  3B 05 00000000 R		    cmp	    EAX, curYear		    ; IF year < curYear
- 0000001F  0F 84 000000DD		    je	    IF_CURRENT_YEAR		    ; THEN
+ 00000014  BA 00000017 R			mov	edx, OFFSET num2Msg	; "Print "Enter second number: " "
+ 00000019  E8 00000000 E			call	WriteString
 
- 00000025  0F 8F 0000010D		    jg	    PERSON_HAS_NOT_BEEN_BORN_YET    ; IF year > curYear
- 0000002B  EB 00			    jmp	    IF_ONE			    ; ELSE
+ 0000001E  E8 00000000 E			call	ReadDec
+ 00000023  A2 00000001 R			mov	num2, AL		; Input num2
 
- 0000002D			IF_ONE:
- 0000002D  E8 0000013A			    call    subYearFromCurYear
- 00000032  BA 0000002B R		    mov	    edx, OFFSET monthMsg
- 00000037  E8 00000000 E		    call    WriteString
+ 00000028  A0 00000000 R			mov	AL, num1		; IF num1 > num2
+ 0000002D  3A 05 00000001 R			cmp	AL, num2
+ 00000033  7F 18				jg	ELSE_LABEL
 
- 0000003C  E8 00000000 E		    call    ReadDec
- 00000041  A3 000000CC R		    mov	    month, eax
+ 00000035  BA 0000002D R			mov	edx, OFFSET SmallMsg	; Print "Smaller = ", num1 
 
- 00000046  3B 05 00000004 R		    cmp	    eax, curMonth
-				    
- 0000004C  7F 09			    jg	    MONTH_GREATER_THAN_CURRENT_MONTH
+ 0000003A  E8 00000000 E			call	WriteString
+ 0000003F  0F B6 05				movzx	EAX, num2
+	   00000001 R
+ 00000046  E8 00000000 E			call	WriteDec
+ 0000004B  EB 14				jmp	END_IF
 
- 0000004E  7C 2A			    jl	    MONTH_LESS_THAN_CURRENT_MONTH
-				    
- 00000050  EB 4B			    jmp	    INNER_ELSE_3
- 00000052  E9 000000ED			    jmp	    _ENDIF			    ; ENDIF
+ 0000004D			ELSE_LABEL:
+ 0000004D  BA 0000002D R			mov	edx, OFFSET SmallMsg	; Smallest = 
+ 00000052  E8 00000000 E			call	WriteString
+ 00000057  A0 00000000 R			mov	AL, num1
+ 0000005C  E8 00000000 E			call	WriteDec
 
- 00000057			MONTH_GREATER_THAN_CURRENT_MONTH: 
- 00000057  BA 00000069 R		    mov	    edx, OFFSET youAreMsg
- 0000005C  E8 00000000 E		    call    WriteString
-				    
- 00000061  E8 000000EA			    call    decrementAge
- 00000066  E8 00000000 E		    call    WriteDec
-
- 0000006B  BA 00000072 R		    mov	    edx, OFFSET yearsOldMsg
- 00000070  E8 00000000 E		    call    WriteString
- 00000075  E9 000000CA			    jmp	    _ENDIF			    ; ENDIF
-				    
- 0000007A			MONTH_LESS_THAN_CURRENT_MONTH:
- 0000007A  BA 00000069 R		    mov	    edx, OFFSET youAreMsg
- 0000007F  E8 00000000 E		    call    WriteString
-				    
- 00000084  A1 000000D4 R		    mov	    eax, age
- 00000089  E8 00000000 E		    call    WriteDec
-
- 0000008E  BA 00000072 R		    mov	    edx, OFFSET yearsOldMsg
- 00000093  E8 00000000 E		    call    WriteString
-
- 00000098  E9 000000A7			    jmp	    _ENDIF			    ; ENDIF
-
- 0000009D			INNER_ELSE_3:
-					    ; this is a hard jump
- 0000009D  BA 0000004B R		    mov	    edx, OFFSET dayMsg
- 000000A2  E8 00000000 E		    call    WriteString
-
- 000000A7  E8 00000000 E		    call    ReadDec
- 000000AC  A3 000000D0 R		    mov	    day, EAX
-
-					    ;;eax=day
- 000000B1  3B 05 00000008 R		    cmp	    eax, curDay
- 000000B7  7F 04			    jg	    DAY_IS_GREATER_THAN_CURRENT_DAY ; IF day < curDay
- 000000B9  7C 27			    jl	    INNER_ELSE_4		    ; IF day > curDay
- 000000BB  74 51			    je	    IS_BIRTHDAY_TODAY		    ; THEN
-				    
-
- 000000BD			DAY_IS_GREATER_THAN_CURRENT_DAY:
- 000000BD  E8 0000008E			    call    decrementAge
-
- 000000C2  BA 00000069 R		    mov	    edx, OFFSET youAreMsg
- 000000C7  E8 00000000 E		    call    WriteString
-				    
- 000000CC  A1 000000D4 R		    mov	    eax, age
- 000000D1  E8 00000000 E		    call    WriteDec
-
- 000000D6  BA 00000072 R		    mov	    edx, OFFSET yearsOldMsg	    ; Print "you are "; age ; " years old "
- 000000DB  E8 00000000 E		    call    WriteString
-
- 000000E0  EB 62			    jmp	    _ENDIF			    ; ENDIF
-
- 000000E2			INNER_ELSE_4:
- 000000E2  BA 00000069 R		    mov	    edx, OFFSET youAreMsg
- 000000E7  E8 00000000 E		    call    WriteString
-				    
- 000000EC  A1 000000D4 R		    mov	    eax, age
- 000000F1  E8 00000000 E		    call    WriteDec
-
- 000000F6  BA 00000072 R		    mov	    edx, OFFSET yearsOldMsg	    ; Print "you are "; age ; " years old "
- 000000FB  E8 00000000 E		    call    WriteString
-
- 00000100  EB 42			    jmp	    _ENDIF			    ; ENDIF
-				    
-
- 00000102			IF_CURRENT_YEAR:
- 00000102  BA 0000007E R		    mov	    edx, OFFSET lessThanOne
- 00000107  E8 00000000 E		    call    WriteString
- 0000010C  EB 36			    jmp	    _ENDIF
-
- 0000010E			IS_BIRTHDAY_TODAY:
- 0000010E  BA 00000069 R		    mov	    edx, OFFSET	youAreMsg
- 00000113  E8 00000000 E		    call    WriteString
-
- 00000118  A1 000000D4 R		    mov	    EAX, age
- 0000011D  E8 00000000 E		    call    WriteDec
-
- 00000122  BA 00000072 R		    mov	    edx, OFFSET	yearsOldMsg	    ; Print "you are "; age ; " years old "
- 00000127  E8 00000000 E		    call    WriteString
-
- 0000012C  BA 0000009C R		    mov	    edx, OFFSET	birthday
- 00000131  E8 00000000 E		    call    WriteString			   ; "you are "; age ;" years old, Happy Birthday"
-
- 00000136  EB 0C			    jmp	    _ENDIF			   ; ENDIF
-
- 00000138			PERSON_HAS_NOT_BEEN_BORN_YET:
- 00000138  BA 000000AD R		    mov	    edx, OFFSET notBornYet
- 0000013D  E8 00000000 E		    call    WriteString
- 00000142  EB 00			    jmp	    _ENDIF			   ; ENDIF
-
- 00000144  E8 00000000 E	_ENDIF:	    call    CRLF
-				    
-
-				invoke  ExitProcess,0 ; stop
- 00000149  6A 00	   *	    push   +000000000h
- 0000014B  E8 00000000 E   *	    call   ExitProcess
- 00000150			main	    ENDP
-
- 00000150			decrementAge	    PROC
- 00000150  A1 000000D4 R			    mov	    eax, age
- 00000155  83 E8 01				    sub	    eax, 1
- 00000158  A3 000000D4 R			    mov	    age, eax
- 0000015D  C3					    ret
- 0000015E			decrementAge	    ENDP
-
-
- 0000015E			incrementAge	    PROC
- 0000015E  A1 000000D4 R			    mov	    eax, age
- 00000163  83 E8 01				    sub	    eax, 1
- 00000166  A3 000000D4 R			    mov	    age, eax
- 0000016B  C3					    ret
- 0000016C			incrementAge	    ENDP
-
- 0000016C			subYearFromCurYear  PROC
-						    ;age=curYear-year
- 0000016C  A1 00000000 R			    mov	    eax, curYear
- 00000171  2B 05 000000C8 R			    sub	    eax, year
- 00000177  A3 000000D4 R			    mov	    age, eax
- 0000017C  C3					    ret
- 0000017D			subYearFromCurYear ENDP
-
-				END main
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/19/23 14:20:02
-(Calculate how old you are	    (HO3C.asm		     Symbols 2 - 1
+ 00000061  E8 00000000 E	END_IF:		call	CRLF
+						exit				; Stop
+ 00000066  6A 00	   *	    push   +000000000h
+ 00000068  E8 00000000 E   *	    call   ExitProcess
+ 0000006D			main		ENDP
+						END	main
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:18:49
+Smallest Number	    (HO3A.asm			     Symbols 2 - 1
 
 
 
@@ -331,8 +175,8 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
-_DATA  . . . . . . . . . . . . .	32 Bit	 000000D8 Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 0000017D Para	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000038 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000006D Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -439,22 +283,11 @@ WriteStackFrame  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 WriteString  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteToFile  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteWindowsMsg  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
-decrementAge . . . . . . . . . .	P Near	 00000150 _TEXT	Length= 0000000E Public STDCALL
-incrementAge . . . . . . . . . .	P Near	 0000015E _TEXT	Length= 0000000E Public STDCALL
-main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000150 Public STDCALL
-  IF_ONE . . . . . . . . . . . .	L Near	 0000002D _TEXT	
-  MONTH_GREATER_THAN_CURRENT_MONTH .	L Near	 00000057 _TEXT	
-  MONTH_LESS_THAN_CURRENT_MONTH 	L Near	 0000007A _TEXT	
-  INNER_ELSE_3 . . . . . . . . .	L Near	 0000009D _TEXT	
-  DAY_IS_GREATER_THAN_CURRENT_DAY 	L Near	 000000BD _TEXT	
-  INNER_ELSE_4 . . . . . . . . .	L Near	 000000E2 _TEXT	
-  IF_CURRENT_YEAR  . . . . . . .	L Near	 00000102 _TEXT	
-  IS_BIRTHDAY_TODAY  . . . . . .	L Near	 0000010E _TEXT	
-  PERSON_HAS_NOT_BEEN_BORN_YET .	L Near	 00000138 _TEXT	
-  _ENDIF . . . . . . . . . . . .	L Near	 00000144 _TEXT	
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000006D Public STDCALL
+  ELSE_LABEL . . . . . . . . . .	L Near	 0000004D _TEXT	
+  END_IF . . . . . . . . . . . .	L Near	 00000061 _TEXT	
 printf . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 scanf  . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
-subYearFromCurYear . . . . . . .	P Near	 0000016C _TEXT	Length= 00000011 Public STDCALL
 wsprintfA  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 
 
@@ -587,6 +420,7 @@ STD_ERROR_HANDLE . . . . . . . .	Number	 -0000000Ch
 STD_INPUT_HANDLE . . . . . . . .	Number	 -0000000Ah   
 STD_OUTPUT_HANDLE  . . . . . . .	Number	 -0000000Bh   
 SetConsoleTitle  . . . . . . . .	Text   	 SetConsoleTitleA
+SmallMsg . . . . . . . . . . . .	Byte	 0000002D _DATA	
 TAB  . . . . . . . . . . . . . .	Number	 00000009h   
 TRUE . . . . . . . . . . . . . .	Number	 00000001h   
 TRUNCATE_EXISTING  . . . . . . .	Number	 00000005h   
@@ -671,21 +505,13 @@ VK_UP  . . . . . . . . . . . . .	Number	 00000026h
 WINDOW_BUFFER_SIZE_EVENT . . . .	Number	 00000004h   
 WriteConsoleOutputCharacter  . .	Text   	 WriteConsoleOutputCharacterA
 WriteConsole . . . . . . . . . .	Text   	 WriteConsoleA
-age  . . . . . . . . . . . . . .	DWord	 000000D4 _DATA	
-birthday . . . . . . . . . . . .	Byte	 0000009C _DATA	
 black  . . . . . . . . . . . . .	Number	 00000000h   
 blue . . . . . . . . . . . . . .	Number	 00000001h   
 brown  . . . . . . . . . . . . .	Number	 00000006h   
-curDay . . . . . . . . . . . . .	DWord	 00000008 _DATA	
-curMonth . . . . . . . . . . . .	DWord	 00000004 _DATA	
-curYear  . . . . . . . . . . . .	DWord	 00000000 _DATA	
 cyan . . . . . . . . . . . . . .	Number	 00000003h   
-dayMsg . . . . . . . . . . . . .	Byte	 0000004B _DATA	
-day  . . . . . . . . . . . . . .	DWord	 000000D0 _DATA	
 exit . . . . . . . . . . . . . .	Text   	 INVOKE ExitProcess,0
 gray . . . . . . . . . . . . . .	Number	 00000008h   
 green  . . . . . . . . . . . . .	Number	 00000002h   
-lessThanOne  . . . . . . . . . .	Byte	 0000007E _DATA	
 lightBlue  . . . . . . . . . . .	Number	 00000009h   
 lightCyan  . . . . . . . . . . .	Number	 0000000Bh   
 lightGray  . . . . . . . . . . .	Number	 00000007h   
@@ -693,17 +519,14 @@ lightGreen . . . . . . . . . . .	Number	 0000000Ah
 lightMagenta . . . . . . . . . .	Number	 0000000Dh   
 lightRed . . . . . . . . . . . .	Number	 0000000Ch   
 magenta  . . . . . . . . . . . .	Number	 00000005h   
-monthMsg . . . . . . . . . . . .	Byte	 0000002B _DATA	
-month  . . . . . . . . . . . . .	DWord	 000000CC _DATA	
-notBornYet . . . . . . . . . . .	Byte	 000000AD _DATA	
+num1Msg  . . . . . . . . . . . .	Byte	 00000002 _DATA	
+num1 . . . . . . . . . . . . . .	Byte	 00000000 _DATA	
+num2Msg  . . . . . . . . . . . .	Byte	 00000017 _DATA	
+num2 . . . . . . . . . . . . . .	Byte	 00000001 _DATA	
 red  . . . . . . . . . . . . . .	Number	 00000004h   
 white  . . . . . . . . . . . . .	Number	 0000000Fh   
 wsprintf . . . . . . . . . . . .	Text   	 wsprintfA
-yearMsg  . . . . . . . . . . . .	Byte	 0000000C _DATA	
-yearsOldMsg  . . . . . . . . . .	Byte	 00000072 _DATA	
-year . . . . . . . . . . . . . .	DWord	 000000C8 _DATA	
 yellow . . . . . . . . . . . . .	Number	 0000000Eh   
-youAreMsg  . . . . . . . . . . .	Byte	 00000069 _DATA	
 
 	   0 Warnings
 	   0 Errors
