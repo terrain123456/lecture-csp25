@@ -1,8 +1,8 @@
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/25/23 18:41:50
-#Sum of two hex digits	    (HO4.asm			     Page 1 - 1
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/25/23 18:58:13
+#Sum of two hex digits	    (LO4.asm			     Page 1 - 1
 
 
-				TITLE Sum of two hex digits	    (HO4.asm)
+				TITLE Sum of two hex digits	    (LO4.asm)
 
 				; Author: Sutinder S. Saini
 				; Date: 2/25/23
@@ -26,71 +26,92 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/25/23 18:41:50
 			      C .LIST
 			      C 
 
-
-				; Start 
-				; Print "Enter first hex digit: " 
-				; Input hexDig1 
-				; Print "Enter second hex digit: " 
-				; Input hexDig2 
-				; hexSum = hexDig1 + hexDig2 
-				; Print "Hex sum = ", hexSum 
-				; Stop
-
-
  00000000			.data
- 00000000 45 6E 74 65 72	hex1Msg	    BYTE    "Enter first hex digit: ", 0
+ 00000000 45 6E 74 65 72	firstMsg	BYTE	"Enter first hex digit: ", 0
 	   20 66 69 72 73
 	   74 20 68 65 78
 	   20 64 69 67 69
 	   74 3A 20 00
- 00000018 45 6E 74 65 72	hex2Msg	    BYTE    "Enter second hex digit: ", 0
+ 00000018 45 6E 74 65 72	secondMsg	BYTE	"Enter second hex digit: ", 0
 	   20 73 65 63 6F
 	   6E 64 20 68 65
 	   78 20 64 69 67
 	   69 74 3A 20 00
- 00000031 48 65 78 20 73	hexSumMsg   BYTE    "Hex sum = ", 0
+ 00000031 00			hexDig1		BYTE	?
+ 00000032 00			hexDig2		BYTE	?
+ 00000033 00			hexSum		BYTE	?
+
+ 00000034 48 65 78 20 73	hexSumMsg	BYTE    "Hex sum = ", 0
 	   75 6D 20 3D 20
 	   00
- 0000003C 00			hexDig1	    BYTE    ?
- 0000003D 00			hexDig2	    BYTE    ?
- 0000003E 00			hexSum	    BYTE    ?
 
  00000000			.code
- 00000000			main	    PROC    ; Start
-					    
- 00000000  BA 00000000 R		    mov	    edx, OFFSET hex1Msg	    ; Print "Enter first hex digit: "
- 00000005  E8 00000000 E		    call    WriteString
+ 00000000			main		PROC				;Start
 
- 0000000A  E8 00000000 E		    call    ReadHex		    ; Input hexDig1
- 0000000F  A2 0000003C R		    mov	    hexDig1, AL
+ 00000000  E8 00000000 E			call	Clrscr
 
- 00000014  BA 00000018 R		    mov	    edx, OFFSET hex2Msg	    ; Print "Enter second hex digit: "
- 00000019  E8 00000000 E		    call    WriteString
+				; Print "Enter first hex digit: "
+				; Input hexDig1
+				; Print "Enter second hex digit: "
+				; Input hexDig2
+				; hexSum = hexDig1 + hexDig2
+				; Print "Hex Sum =", hexSum
 
- 0000001E  E8 00000000 E		    call    ReadHex		    ; Input hexDig2
- 00000023  A2 0000003D R		    mov	    hexDig2, AL
+ 00000005  BA 00000000 R			mov	edx, OFFSET firstMsg	; Print "Enter first hex digit: "
+ 0000000A  E8 00000000 E			call    WriteString
+
+ 0000000F  E8 0000004B				call    inHex			; Input hexDig1
+ 00000014  A2 00000031 R			mov	hexDig1, AL
+
+ 00000019  BA 00000018 R			mov	edx, OFFSET secondMsg	; Print "Enter second hex digit: "
+ 0000001E  E8 00000000 E			call    WriteString
+
+ 00000023  E8 00000037				call    inHex			; Input hexDig2
+ 00000028  A2 00000032 R			mov	hexDig2, AL
 
 
- 00000028  A0 0000003C R		    mov	    AL, hexDig1
- 0000002D  02 05 0000003D R		    add	    AL, hexDig2		    ; hexSum = hexDig1 + hexDig2
+ 0000002D  A0 00000031 R			mov	AL, hexDig1
+ 00000032  02 05 00000032 R			add	AL, hexDig2		; hexSum = hexDig1 + hexDig2
 
- 00000033  A2 0000003E R		    mov	    hexSum, AL
+ 00000038  A2 00000033 R			mov	hexSum, AL
 
- 00000038  BA 00000031 R		    mov	    edx, OFFSET hexSumMsg
- 0000003D  E8 00000000 E		    call    WriteString
+ 0000003D  BA 00000034 R			mov	edx, OFFSET hexSumMsg   ; Print "hexSum = ", hexSum
+ 00000042  E8 00000000 E			call    WriteString
+ 00000047  0F B6 05				movzx   EAX, hexSum		    
+	   00000033 R
+ 0000004E  E8 00000012				call    outHex
 
- 00000042  0F B6 05			    movzx   EAX, hexSum		    ; Print "hexSum"
-	   0000003E R
- 00000049  E8 00000000 E		    call    WriteHex
+ 00000053  E8 00000000 E			call	CRLF
+						exit				;Stop
+ 00000058  6A 00	   *	    push   +000000000h
+ 0000005A  E8 00000000 E   *	    call   ExitProcess
+ 0000005F			main		ENDP
 
-					    exit			    ; Stop
- 0000004E  6A 00	   *	    push   +000000000h
- 00000050  E8 00000000 E   *	    call   ExitProcess
+				;*******************
+				; Input hex digit
+				; Input: none
+				; Output: hex digit returned in AL
+				;*******************
 
- 00000055			main	    ENDP
-				END	    main
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/25/23 18:41:50
-#Sum of two hex digits	    (HO4.asm			     Symbols 2 - 1
+ 0000005F			inHex		PROC				;Enter
+ 0000005F  E8 00000000 E			call	ReadHex
+ 00000064  C3					ret				;Exit
+ 00000065			inHex		ENDP
+
+				;*******************
+				; Print hex digit
+				; Input: value to print in AL register
+				; output: none
+				;*******************
+
+ 00000065			outHex		PROC				;Enter
+ 00000065  E8 00000000 E			call	WriteHex
+ 0000006A  C3					ret				;Exit
+ 0000006B			outHex		ENDP
+
+						END	main
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/25/23 18:58:13
+#Sum of two hex digits	    (LO4.asm			     Symbols 2 - 1
 
 
 
@@ -184,7 +205,7 @@ Segments and Groups:
 FLAT . . . . . . . . . . . . . .	GROUP
 STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
 _DATA  . . . . . . . . . . . . .	32 Bit	 0000003F Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000055 Para	  Public  'CODE'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000006B Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -291,7 +312,9 @@ WriteStackFrame  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 WriteString  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteToFile  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteWindowsMsg  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
-main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000055 Public STDCALL
+inHex  . . . . . . . . . . . . .	P Near	 0000005F _TEXT	Length= 00000006 Public STDCALL
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000005F Public STDCALL
+outHex . . . . . . . . . . . . .	P Near	 00000065 _TEXT	Length= 00000006 Public STDCALL
 printf . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 scanf  . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 wsprintfA  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
@@ -515,14 +538,13 @@ blue . . . . . . . . . . . . . .	Number	 00000001h
 brown  . . . . . . . . . . . . .	Number	 00000006h   
 cyan . . . . . . . . . . . . . .	Number	 00000003h   
 exit . . . . . . . . . . . . . .	Text   	 INVOKE ExitProcess,0
+firstMsg . . . . . . . . . . . .	Byte	 00000000 _DATA	
 gray . . . . . . . . . . . . . .	Number	 00000008h   
 green  . . . . . . . . . . . . .	Number	 00000002h   
-hex1Msg  . . . . . . . . . . . .	Byte	 00000000 _DATA	
-hex2Msg  . . . . . . . . . . . .	Byte	 00000018 _DATA	
-hexDig1  . . . . . . . . . . . .	Byte	 0000003C _DATA	
-hexDig2  . . . . . . . . . . . .	Byte	 0000003D _DATA	
-hexSumMsg  . . . . . . . . . . .	Byte	 00000031 _DATA	
-hexSum . . . . . . . . . . . . .	Byte	 0000003E _DATA	
+hexDig1  . . . . . . . . . . . .	Byte	 00000031 _DATA	
+hexDig2  . . . . . . . . . . . .	Byte	 00000032 _DATA	
+hexSumMsg  . . . . . . . . . . .	Byte	 00000034 _DATA	
+hexSum . . . . . . . . . . . . .	Byte	 00000033 _DATA	
 lightBlue  . . . . . . . . . . .	Number	 00000009h   
 lightCyan  . . . . . . . . . . .	Number	 0000000Bh   
 lightGray  . . . . . . . . . . .	Number	 00000007h   
@@ -531,6 +553,7 @@ lightMagenta . . . . . . . . . .	Number	 0000000Dh
 lightRed . . . . . . . . . . . .	Number	 0000000Ch   
 magenta  . . . . . . . . . . . .	Number	 00000005h   
 red  . . . . . . . . . . . . . .	Number	 00000004h   
+secondMsg  . . . . . . . . . . .	Byte	 00000018 _DATA	
 white  . . . . . . . . . . . . .	Number	 0000000Fh   
 wsprintf . . . . . . . . . . . .	Text   	 wsprintfA
 yellow . . . . . . . . . . . . .	Number	 0000000Eh   
