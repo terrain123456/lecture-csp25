@@ -53,4 +53,4 @@ main	    PROC			    ; Start
 	    exit			    ; Stop
 
 main	    ENDP
-END	    main
+	    END	    main
