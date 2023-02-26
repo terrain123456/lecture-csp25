@@ -1,11 +1,11 @@
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:25:24
-Smallest Number	    (HO3A.asm			     Page 1 - 1
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/25/23 18:41:50
+#Sum of two hex digits	    (HO4.asm			     Page 1 - 1
 
 
-				TITLE Smallest Number	    (HO3A.asm)
+				TITLE Sum of two hex digits	    (HO4.asm)
 
 				; Author: Sutinder S. Saini
-				; Date: 2/17/23
+				; Date: 2/25/23
 
 				INCLUDE Irvine32.inc
 			      C ; Include file for Irvine32.lib             (Irvine32.inc)
@@ -26,63 +26,71 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:25:24
 			      C .LIST
 			      C 
 
+
+				; Start 
+				; Print "Enter first hex digit: " 
+				; Input hexDig1 
+				; Print "Enter second hex digit: " 
+				; Input hexDig2 
+				; hexSum = hexDig1 + hexDig2 
+				; Print "Hex sum = ", hexSum 
+				; Stop
+
+
  00000000			.data
- 00000000 00			num1		BYTE	?
- 00000001 00			num2		BYTE	?
- 00000002 45 6E 74 65 72	num1Msg		BYTE	"Enter first number: ", 0
+ 00000000 45 6E 74 65 72	hex1Msg	    BYTE    "Enter first hex digit: ", 0
 	   20 66 69 72 73
-	   74 20 6E 75 6D
-	   62 65 72 3A 20
-	   00
- 00000017 45 6E 74 65 72	num2Msg		BYTE	"Enter second number: ", 0
+	   74 20 68 65 78
+	   20 64 69 67 69
+	   74 3A 20 00
+ 00000018 45 6E 74 65 72	hex2Msg	    BYTE    "Enter second hex digit: ", 0
 	   20 73 65 63 6F
-	   6E 64 20 6E 75
-	   6D 62 65 72 3A
-	   20 00
- 0000002D 53 6D 61 6C 6C	SmallMsg	BYTE	"Smaller = ", 0
-	   65 72 20 3D 20
+	   6E 64 20 68 65
+	   78 20 64 69 67
+	   69 74 3A 20 00
+ 00000031 48 65 78 20 73	hexSumMsg   BYTE    "Hex sum = ", 0
+	   75 6D 20 3D 20
 	   00
+ 0000003C 00			hexDig1	    BYTE    ?
+ 0000003D 00			hexDig2	    BYTE    ?
+ 0000003E 00			hexSum	    BYTE    ?
 
  00000000			.code
- 00000000			main		PROC				; start
- 00000000  BA 00000002 R			mov	edx, OFFSET num1Msg	; "Print "Enter first number""
- 00000005  E8 00000000 E			call	WriteString
+ 00000000			main	    PROC    ; Start
+					    
+ 00000000  BA 00000000 R		    mov	    edx, OFFSET hex1Msg	    ; Print "Enter first hex digit: "
+ 00000005  E8 00000000 E		    call    WriteString
 
- 0000000A  E8 00000000 E			call	ReadDec			; Input num1
- 0000000F  A2 00000000 R			mov	num1, AL
+ 0000000A  E8 00000000 E		    call    ReadHex		    ; Input hexDig1
+ 0000000F  A2 0000003C R		    mov	    hexDig1, AL
 
- 00000014  BA 00000017 R			mov	edx, OFFSET num2Msg	; "Print "Enter second number: " "
- 00000019  E8 00000000 E			call	WriteString
+ 00000014  BA 00000018 R		    mov	    edx, OFFSET hex2Msg	    ; Print "Enter second hex digit: "
+ 00000019  E8 00000000 E		    call    WriteString
 
- 0000001E  E8 00000000 E			call	ReadDec
- 00000023  A2 00000001 R			mov	num2, AL		; Input num2
+ 0000001E  E8 00000000 E		    call    ReadHex		    ; Input hexDig2
+ 00000023  A2 0000003D R		    mov	    hexDig2, AL
 
- 00000028  A0 00000000 R			mov	AL, num1		; IF num1 > num2
- 0000002D  3A 05 00000001 R			cmp	AL, num2
- 00000033  7C 18				jl	ELSE_LABEL
 
- 00000035  BA 0000002D R			mov	edx, OFFSET SmallMsg	; Print "Smaller = ", num1 
+ 00000028  A0 0000003C R		    mov	    AL, hexDig1
+ 0000002D  02 05 0000003D R		    add	    AL, hexDig2		    ; hexSum = hexDig1 + hexDig2
 
- 0000003A  E8 00000000 E			call	WriteString
- 0000003F  0F B6 05				movzx	EAX, num2
-	   00000001 R
- 00000046  E8 00000000 E			call	WriteDec
- 0000004B  EB 14				jmp	END_IF
+ 00000033  A2 0000003E R		    mov	    hexSum, AL
 
- 0000004D			ELSE_LABEL:
- 0000004D  BA 0000002D R			mov	edx, OFFSET SmallMsg	; Print "Smaller = ", num2
- 00000052  E8 00000000 E			call	WriteString
- 00000057  A0 00000001 R			mov	AL, num2
- 0000005C  E8 00000000 E			call	WriteDec
+ 00000038  BA 00000031 R		    mov	    edx, OFFSET hexSumMsg
+ 0000003D  E8 00000000 E		    call    WriteString
 
- 00000061  E8 00000000 E	END_IF:		call	CRLF
-						exit				; Stop
- 00000066  6A 00	   *	    push   +000000000h
- 00000068  E8 00000000 E   *	    call   ExitProcess
- 0000006D			main		ENDP
-						END	main
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/20/23 22:25:24
-Smallest Number	    (HO3A.asm			     Symbols 2 - 1
+ 00000042  0F B6 05			    movzx   EAX, hexSum		    ; Print "hexSum"
+	   0000003E R
+ 00000049  E8 00000000 E		    call    WriteHex
+
+					    exit			    ; Stop
+ 0000004E  6A 00	   *	    push   +000000000h
+ 00000050  E8 00000000 E   *	    call   ExitProcess
+
+ 00000055			main	    ENDP
+				END	    main
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/25/23 18:41:50
+#Sum of two hex digits	    (HO4.asm			     Symbols 2 - 1
 
 
 
@@ -175,8 +183,8 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000038 Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 0000006D Para	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 0000003F Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000055 Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -283,9 +291,7 @@ WriteStackFrame  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 WriteString  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteToFile  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteWindowsMsg  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
-main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000006D Public STDCALL
-  ELSE_LABEL . . . . . . . . . .	L Near	 0000004D _TEXT	
-  END_IF . . . . . . . . . . . .	L Near	 00000061 _TEXT	
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000055 Public STDCALL
 printf . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 scanf  . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 wsprintfA  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
@@ -420,7 +426,6 @@ STD_ERROR_HANDLE . . . . . . . .	Number	 -0000000Ch
 STD_INPUT_HANDLE . . . . . . . .	Number	 -0000000Ah   
 STD_OUTPUT_HANDLE  . . . . . . .	Number	 -0000000Bh   
 SetConsoleTitle  . . . . . . . .	Text   	 SetConsoleTitleA
-SmallMsg . . . . . . . . . . . .	Byte	 0000002D _DATA	
 TAB  . . . . . . . . . . . . . .	Number	 00000009h   
 TRUE . . . . . . . . . . . . . .	Number	 00000001h   
 TRUNCATE_EXISTING  . . . . . . .	Number	 00000005h   
@@ -512,6 +517,12 @@ cyan . . . . . . . . . . . . . .	Number	 00000003h
 exit . . . . . . . . . . . . . .	Text   	 INVOKE ExitProcess,0
 gray . . . . . . . . . . . . . .	Number	 00000008h   
 green  . . . . . . . . . . . . .	Number	 00000002h   
+hex1Msg  . . . . . . . . . . . .	Byte	 00000000 _DATA	
+hex2Msg  . . . . . . . . . . . .	Byte	 00000018 _DATA	
+hexDig1  . . . . . . . . . . . .	Byte	 0000003C _DATA	
+hexDig2  . . . . . . . . . . . .	Byte	 0000003D _DATA	
+hexSumMsg  . . . . . . . . . . .	Byte	 00000031 _DATA	
+hexSum . . . . . . . . . . . . .	Byte	 0000003E _DATA	
 lightBlue  . . . . . . . . . . .	Number	 00000009h   
 lightCyan  . . . . . . . . . . .	Number	 0000000Bh   
 lightGray  . . . . . . . . . . .	Number	 00000007h   
@@ -519,10 +530,6 @@ lightGreen . . . . . . . . . . .	Number	 0000000Ah
 lightMagenta . . . . . . . . . .	Number	 0000000Dh   
 lightRed . . . . . . . . . . . .	Number	 0000000Ch   
 magenta  . . . . . . . . . . . .	Number	 00000005h   
-num1Msg  . . . . . . . . . . . .	Byte	 00000002 _DATA	
-num1 . . . . . . . . . . . . . .	Byte	 00000000 _DATA	
-num2Msg  . . . . . . . . . . . .	Byte	 00000017 _DATA	
-num2 . . . . . . . . . . . . . .	Byte	 00000001 _DATA	
 red  . . . . . . . . . . . . . .	Number	 00000004h   
 white  . . . . . . . . . . . . .	Number	 0000000Fh   
 wsprintf . . . . . . . . . . . .	Text   	 wsprintfA
