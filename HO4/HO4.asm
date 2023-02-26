@@ -25,7 +25,7 @@ hexDig2	    BYTE    ?
 hexSum	    BYTE    ?
 
 .code
-main	    PROC    ; Start
+main	    PROC			    ; Start
 	    
 	    mov	    edx, OFFSET hex1Msg	    ; Print "Enter first hex digit: "
 	    call    WriteString
