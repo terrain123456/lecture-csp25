@@ -1,8 +1,8 @@
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/25/23 18:58:13
-#Sum of two hex digits	    (LO4.asm			     Page 1 - 1
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    03/09/23 16:59:44
+$Sum of two hex digits	    (HO5B.asm			     Page 1 - 1
 
 
-				TITLE Sum of two hex digits	    (LO4.asm)
+				TITLE Sum of two hex digits	    (HO5B.asm)
 
 				; Author: Sutinder S. Saini
 				; Date: 2/25/23
@@ -27,91 +27,64 @@ Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/25/23 18:58:13
 			      C 
 
  00000000			.data
- 00000000 45 6E 74 65 72	firstMsg	BYTE	"Enter first hex digit: ", 0
-	   20 66 69 72 73
-	   74 20 68 65 78
-	   20 64 69 67 69
-	   74 3A 20 00
- 00000018 45 6E 74 65 72	secondMsg	BYTE	"Enter second hex digit: ", 0
-	   20 73 65 63 6F
-	   6E 64 20 68 65
-	   78 20 64 69 67
-	   69 74 3A 20 00
- 00000031 00			hexDig1		BYTE	?
- 00000032 00			hexDig2		BYTE	?
- 00000033 00			hexSum		BYTE	?
-
- 00000034 48 65 78 20 73	hexSumMsg	BYTE    "Hex sum = ", 0
-	   75 6D 20 3D 20
-	   00
+ 00000000 45 6E 74 65 72	msg		    BYTE "Enter a year: ", 0
+	   20 61 20 79 65
+	   61 72 3A 20 00
+ 0000000F 20 79 65 61 72	yearsHavePassedMsg  BYTE " years have passed", 0
+	   73 20 68 61 76
+	   65 20 70 61 73
+	   73 65 64 00
+ 00000022 00000000		yearsPassed	    DWORD ?
+ 00000026 000007E7		currentYear	    DWORD 2023
+ 0000002A 00000000		year		    DWORD ?
 
  00000000			.code
- 00000000			main		PROC				;Start
+ 00000000			main	    PROC			    ; Start
+ 00000000  BA 00000000 R		    mov	    edx, OFFSET msg	    ; "Enter a year: "
+ 00000005  E8 00000000 E		    call    WriteString
 
- 00000000  E8 00000000 E			call	Clrscr
+ 0000000A  E8 00000000 E		    call    ReadInt		    ; Input year
+ 0000000F  A3 0000002A R		    mov	    year, EAX
 
-				; Print "Enter first hex digit: "
-				; Input hexDig1
-				; Print "Enter second hex digit: "
-				; Input hexDig2
-				; hexSum = hexDig1 + hexDig2
-				; Print "Hex Sum =", hexSum
+ 00000014  83 3D 0000002A R		    cmp	    year, 0
+	   00
+ 0000001B  7F 02			    jg	    WHILE_LOOP		    ; While year != 0
 
- 00000005  BA 00000000 R			mov	edx, OFFSET firstMsg	; Print "Enter first hex digit: "
- 0000000A  E8 00000000 E			call    WriteString
+ 0000001D  7E 48			    jle	    ENDWHILE		    ; EndWhile
+				    
+ 0000001F			WHILE_LOOP:
+ 0000001F  A1 00000026 R		    mov	    EAX, currentYear
+ 00000024  2B 05 0000002A R		    sub	    EAX, year
+ 0000002A  A3 00000022 R		    mov	    yearsPassed, EAX
+					    
+ 0000002F  A1 00000022 R		    mov	    eax, yearsPassed
+ 00000034  E8 00000000 E		    call    WriteDec
 
- 0000000F  E8 0000004B				call    inHex			; Input hexDig1
- 00000014  A2 00000031 R			mov	hexDig1, AL
+ 00000039  BA 0000000F R		    mov	    edx, OFFSET yearsHavePassedMsg
+ 0000003E  E8 00000000 E		    call    WriteString
+ 00000043  E8 00000000 E		    call    CRLF
 
- 00000019  BA 00000018 R			mov	edx, OFFSET secondMsg	; Print "Enter second hex digit: "
- 0000001E  E8 00000000 E			call    WriteString
+ 00000048  BA 00000000 R		    mov	    edx, OFFSET msg	    ; "Enter a year: "
+ 0000004D  E8 00000000 E		    call    WriteString
 
- 00000023  E8 00000037				call    inHex			; Input hexDig2
- 00000028  A2 00000032 R			mov	hexDig2, AL
+ 00000052  E8 00000000 E		    call    ReadInt		    ; Input year
+ 00000057  A3 0000002A R		    mov	    year, EAX
 
+ 0000005C  83 3D 0000002A R		    cmp	    year, 0
+	   00
+ 00000063  7F BA			    jg	    WHILE_LOOP		    ; While year != 0
+					    
+ 00000065  7E 00			    jle	    ENDWHILE
 
- 0000002D  A0 00000031 R			mov	AL, hexDig1
- 00000032  02 05 00000032 R			add	AL, hexDig2		; hexSum = hexDig1 + hexDig2
+ 00000067			ENDWHILE:				    ; ENDWHILE
+					    exit
+ 00000067  6A 00	   *	    push   +000000000h
+ 00000069  E8 00000000 E   *	    call   ExitProcess
 
- 00000038  A2 00000033 R			mov	hexSum, AL
-
- 0000003D  BA 00000034 R			mov	edx, OFFSET hexSumMsg   ; Print "hexSum = ", hexSum
- 00000042  E8 00000000 E			call    WriteString
- 00000047  0F B6 05				movzx   EAX, hexSum		    
-	   00000033 R
- 0000004E  E8 00000012				call    outHex
-
- 00000053  E8 00000000 E			call	CRLF
-						exit				;Stop
- 00000058  6A 00	   *	    push   +000000000h
- 0000005A  E8 00000000 E   *	    call   ExitProcess
- 0000005F			main		ENDP
-
-				;*******************
-				; Input hex digit
-				; Input: none
-				; Output: hex digit returned in AL
-				;*******************
-
- 0000005F			inHex		PROC				;Enter
- 0000005F  E8 00000000 E			call	ReadHex
- 00000064  C3					ret				;Exit
- 00000065			inHex		ENDP
-
-				;*******************
-				; Print hex digit
-				; Input: value to print in AL register
-				; output: none
-				;*******************
-
- 00000065			outHex		PROC				;Enter
- 00000065  E8 00000000 E			call	WriteHex
- 0000006A  C3					ret				;Exit
- 0000006B			outHex		ENDP
-
-						END	main
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    02/25/23 18:58:13
-#Sum of two hex digits	    (LO4.asm			     Symbols 2 - 1
+ 0000006E			main	    ENDP
+					    END	    main
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    03/09/23 16:59:44
+$Sum of two hex digits	    (HO5B.asm			     Symbols 2 - 1
 
 
 
@@ -204,8 +177,8 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
-_DATA  . . . . . . . . . . . . .	32 Bit	 0000003F Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 0000006B Para	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 0000002E Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 0000006E Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -312,9 +285,9 @@ WriteStackFrame  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 WriteString  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteToFile  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteWindowsMsg  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
-inHex  . . . . . . . . . . . . .	P Near	 0000005F _TEXT	Length= 00000006 Public STDCALL
-main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000005F Public STDCALL
-outHex . . . . . . . . . . . . .	P Near	 00000065 _TEXT	Length= 00000006 Public STDCALL
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 0000006E Public STDCALL
+  WHILE_LOOP . . . . . . . . . .	L Near	 0000001F _TEXT	
+  ENDWHILE . . . . . . . . . . .	L Near	 00000067 _TEXT	
 printf . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 scanf  . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 wsprintfA  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
@@ -536,15 +509,11 @@ WriteConsole . . . . . . . . . .	Text   	 WriteConsoleA
 black  . . . . . . . . . . . . .	Number	 00000000h   
 blue . . . . . . . . . . . . . .	Number	 00000001h   
 brown  . . . . . . . . . . . . .	Number	 00000006h   
+currentYear  . . . . . . . . . .	DWord	 00000026 _DATA	
 cyan . . . . . . . . . . . . . .	Number	 00000003h   
 exit . . . . . . . . . . . . . .	Text   	 INVOKE ExitProcess,0
-firstMsg . . . . . . . . . . . .	Byte	 00000000 _DATA	
 gray . . . . . . . . . . . . . .	Number	 00000008h   
 green  . . . . . . . . . . . . .	Number	 00000002h   
-hexDig1  . . . . . . . . . . . .	Byte	 00000031 _DATA	
-hexDig2  . . . . . . . . . . . .	Byte	 00000032 _DATA	
-hexSumMsg  . . . . . . . . . . .	Byte	 00000034 _DATA	
-hexSum . . . . . . . . . . . . .	Byte	 00000033 _DATA	
 lightBlue  . . . . . . . . . . .	Number	 00000009h   
 lightCyan  . . . . . . . . . . .	Number	 0000000Bh   
 lightGray  . . . . . . . . . . .	Number	 00000007h   
@@ -552,10 +521,13 @@ lightGreen . . . . . . . . . . .	Number	 0000000Ah
 lightMagenta . . . . . . . . . .	Number	 0000000Dh   
 lightRed . . . . . . . . . . . .	Number	 0000000Ch   
 magenta  . . . . . . . . . . . .	Number	 00000005h   
+msg  . . . . . . . . . . . . . .	Byte	 00000000 _DATA	
 red  . . . . . . . . . . . . . .	Number	 00000004h   
-secondMsg  . . . . . . . . . . .	Byte	 00000018 _DATA	
 white  . . . . . . . . . . . . .	Number	 0000000Fh   
 wsprintf . . . . . . . . . . . .	Text   	 wsprintfA
+yearsHavePassedMsg . . . . . . .	Byte	 0000000F _DATA	
+yearsPassed  . . . . . . . . . .	DWord	 00000022 _DATA	
+year . . . . . . . . . . . . . .	DWord	 0000002A _DATA	
 yellow . . . . . . . . . . . . .	Number	 0000000Eh   
 
 	   0 Warnings
