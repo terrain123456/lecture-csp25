@@ -1,8 +1,8 @@
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    03/09/23 16:59:44
-$Sum of two hex digits	    (HO5B.asm			     Page 1 - 1
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    03/09/23 17:01:26
+/Calculate how many years have passed (HO5B.asm		     Page 1 - 1
 
 
-				TITLE Sum of two hex digits	    (HO5B.asm)
+				TITLE Calculate how many years have passed (HO5B.asm)
 
 				; Author: Sutinder S. Saini
 				; Date: 2/25/23
@@ -83,8 +83,8 @@ $Sum of two hex digits	    (HO5B.asm			     Page 1 - 1
 
  0000006E			main	    ENDP
 					    END	    main
-Microsoft (R) Macro Assembler Version 14.34.31937.0	    03/09/23 16:59:44
-$Sum of two hex digits	    (HO5B.asm			     Symbols 2 - 1
+Microsoft (R) Macro Assembler Version 14.34.31937.0	    03/09/23 17:01:26
+/Calculate how many years have passed (HO5B.asm		     Symbols 2 - 1
 
 
 

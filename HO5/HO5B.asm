@@ -1,4 +1,4 @@
-TITLE Sum of two hex digits	    (HO5B.asm)
+TITLE Calculate how many years have passed (HO5B.asm)
 
 ; Author: Sutinder S. Saini
 ; Date: 2/25/23
